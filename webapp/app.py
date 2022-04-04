@@ -18,7 +18,7 @@ def fire():
     GPIO.output(in2,GPIO.LOW)
     sleep(3)
     GPIO.output(in1,GPIO.LOW)
-    GPIO.output(in2,GPIO.HIGH)
+    GPIO.output(in2,GPIO.LOW)
     return redirect(url_for('success'))
 
 @app.route('/success')
