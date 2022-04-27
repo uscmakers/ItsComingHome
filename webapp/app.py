@@ -2,6 +2,7 @@ from flask import Flask, render_template, redirect, url_for
 import RPi.GPIO as GPIO          
 from time import sleep
 
+
 in1 = 24
 in2 = 23
 
@@ -24,6 +25,22 @@ def fire():
 @app.route('/success')
 def success():
     return render_template('success.html')
+
+@app.route('/reset')
+def reset():
+    return redirect(url_for('index'))
+
+@app.route('/left')
+def left():
+    return redirect(url_for('index'))
+
+@app.route('/center')
+def center():
+    return redirect(url_for('index'))
+
+@app.route('/right')
+def right():
+    return redirect(url_for('index'))
 
 if __name__ == '__main__':
     GPIO.setmode(GPIO.BCM)
