@@ -2,7 +2,6 @@ from pickle import NONE
 from flask import Flask, render_template, redirect, url_for
 import RPi.GPIO as GPIO          
 from time import sleep
-from flask import g
 import spark
 from enum import Enum
 
@@ -12,12 +11,11 @@ class Direction(Enum):
     CENTER = 2
     RIGHT = 3
 
-
 in1 = 24
 in2 = 23
 pwm_pin = 13
 
-move_speed = 0.3
+move_speed = 0.15
 move_wait = 2
 
 position = Direction.NONE
@@ -45,7 +43,7 @@ def success():
 @app.route('/reset')
 def reset():
     global position
-    spark.set_speed(-0.2)
+    spark.set_speed(-0.1)
     sleep(10)
     position = Direction.RIGHT
     spark.neutral()
