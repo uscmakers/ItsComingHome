@@ -20,6 +20,8 @@ pwm_pin = 13
 move_speed = 0.3
 move_wait = 2
 
+position = Direction.NONE
+
 app = Flask(__name__)
 
 @app.route('/')
@@ -42,55 +44,55 @@ def success():
 
 @app.route('/reset')
 def reset():
-    g.spark.set_speed(-0.2)
+    global position
+    spark.set_speed(-0.2)
     sleep(10)
-    g.position = Direction.RIGHT
-    g.spark.neutral()
+    position = Direction.RIGHT
+    spark.neutral()
     return redirect(url_for('index'))
 
 @app.route('/left')
 def left():
-    if g.position == Direction.RIGHT:
-        g.spark.set_speed(move_speed)
+    global position
+    if position == Direction.RIGHT:
+        spark.set_speed(move_speed)
         sleep(2*move_wait)
-        g.position = Direction.LEFT
-    elif g.position == Direction.CENTER:
-        g.spark.set_speed(move_speed)
+        position = Direction.LEFT
+    elif position == Direction.CENTER:
+        spark.set_speed(move_speed)
         sleep(move_wait)
-        g.position = Direction.LEFT
-    g.spark.neutral()
+        position = Direction.LEFT
+    spark.neutral()
     return redirect(url_for('index'))
 
 @app.route('/center')
 def center():
-    if g.position == Direction.LEFT:
-        g.spark.set_speed(-move_speed)
+    global position
+    if position == Direction.LEFT:
+        spark.set_speed(-move_speed)
         sleep(move_wait)
-        g.position = Direction.CENTER
-    elif g.position == Direction.RIGHT:
-        g.spark.set_speed(move_speed)
+        position = Direction.CENTER
+    elif position == Direction.RIGHT:
+        spark.set_speed(move_speed)
         sleep(move_wait)
-        g.position = Direction.CENTER
-    g.spark.neutral()
+        position = Direction.CENTER
+    spark.neutral()
     return redirect(url_for('index'))
 
 @app.route('/right')
 def right():
-    if g.position == Direction.LEFT:
-        g.spark.set_speed(-move_speed)
+    global position
+    if position == Direction.LEFT:
+        spark.set_speed(-move_speed)
         sleep(2*move_wait)
-        g.position = Direction.RIGHT
-    elif g.position == Direction.CENTER:
-        g.spark.set_speed(-move_speed)
+        position = Direction.RIGHT
+    elif position == Direction.CENTER:
+        spark.set_speed(-move_speed)
         sleep(move_wait)
-        g.position = Direction.RIGHT
-    g.spark.neutral()
+        position = Direction.RIGHT
+    spark.neutral()
     return redirect(url_for('index'))
 
-@app.before_first_request
-def startup():
-    g.spark = spark.SparkController(13)
-    g.position = Direction.NONE
 
 if __name__ == '__main__':
     GPIO.setmode(GPIO.BCM)
@@ -98,4 +100,5 @@ if __name__ == '__main__':
     GPIO.setup(in2,GPIO.OUT)
     GPIO.output(in1,GPIO.LOW)
     GPIO.output(in2,GPIO.LOW)
+    spark = spark.SparkController(13)
     app.run(debug=True, port=80, host='0.0.0.0')
