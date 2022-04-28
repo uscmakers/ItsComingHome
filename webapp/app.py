@@ -1,6 +1,6 @@
 from pickle import NONE
 from flask import Flask, render_template, redirect, url_for
-import RPi.GPIO as GPIO          
+import RPi.GPIO as GPIO
 from time import sleep
 import spark
 from enum import Enum
@@ -25,7 +25,7 @@ app = Flask(__name__)
 @app.route('/')
 def index():
     return render_template('index.html')
-    
+
 @app.route('/fire')
 def fire():
     print('Fire!!!')
