@@ -3,8 +3,7 @@ from flask import Flask, render_template, redirect, url_for
 import RPi.GPIO as GPIO          
 from time import sleep
 from flask import g
-from .spark import SparkController
-
+import spark
 from enum import Enum
 
 class Direction(Enum):
@@ -88,12 +87,15 @@ def right():
     g.spark.neutral()
     return redirect(url_for('index'))
 
+@app.before_first_request
+def startup():
+    g.spark = spark.SparkController(13)
+    g.position = Direction.NONE
+
 if __name__ == '__main__':
     GPIO.setmode(GPIO.BCM)
     GPIO.setup(in1,GPIO.OUT)
     GPIO.setup(in2,GPIO.OUT)
     GPIO.output(in1,GPIO.LOW)
     GPIO.output(in2,GPIO.LOW)
-    g.spark = SparkController(13)
-    g.position = Direction.NONE
-    app.run(debug=True, host='0.0.0.0')
+    app.run(debug=True, port=80, host='0.0.0.0')
