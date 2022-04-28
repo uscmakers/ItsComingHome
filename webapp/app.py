@@ -1,4 +1,3 @@
-from pickle import NONE
 from flask import Flask, render_template, redirect, url_for
 import RPi.GPIO as GPIO
 from time import sleep

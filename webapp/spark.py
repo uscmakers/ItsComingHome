@@ -1,6 +1,6 @@
 import RPi.GPIO as GPIO
 
-neutral_value = 7.1
+neutral_value = 7.12
 speed_coefficient = 2.5
 
 class SparkController:
