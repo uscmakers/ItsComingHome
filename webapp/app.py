@@ -20,6 +20,13 @@ move_wait = 2
 
 position = Direction.NONE
 
+GPIO.setmode(GPIO.BCM)
+GPIO.setup(in1,GPIO.OUT)
+GPIO.setup(in2,GPIO.OUT)
+GPIO.output(in1,GPIO.LOW)
+GPIO.output(in2,GPIO.LOW)
+spark = spark.SparkController(13)
+
 app = Flask(__name__)
 
 @app.route('/')
@@ -93,10 +100,4 @@ def right():
 
 
 if __name__ == '__main__':
-    GPIO.setmode(GPIO.BCM)
-    GPIO.setup(in1,GPIO.OUT)
-    GPIO.setup(in2,GPIO.OUT)
-    GPIO.output(in1,GPIO.LOW)
-    GPIO.output(in2,GPIO.LOW)
-    spark = spark.SparkController(13)
     app.run(debug=True, port=80, host='0.0.0.0')
