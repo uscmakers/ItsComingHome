@@ -1,7 +1,7 @@
 from flask import Flask, render_template, redirect, url_for
 import RPi.GPIO as GPIO
 from time import sleep
-import spark
+import spark as spark_module
 from enum import Enum
 
 class Direction(Enum):
@@ -48,7 +48,7 @@ def success():
 @app.route('/reset')
 def reset():
     global position
-    spark = spark.SparkController(pwm_pin)
+    spark = spark_module.SparkController(pwm_pin)
     spark.set_speed(-0.1)
     sleep(10)
     position = Direction.RIGHT
@@ -58,7 +58,7 @@ def reset():
 @app.route('/left')
 def left():
     global position
-    spark = spark.SparkController(pwm_pin)
+    spark = spark_module.SparkController(pwm_pin)
     if position == Direction.RIGHT:
         spark.set_speed(move_speed)
         sleep(2*move_wait)
@@ -73,7 +73,7 @@ def left():
 @app.route('/center')
 def center():
     global position
-    spark = spark.SparkController(pwm_pin)
+    spark = spark_module.SparkController(pwm_pin)
     if position == Direction.LEFT:
         spark.set_speed(-move_speed)
         sleep(move_wait)
@@ -88,7 +88,7 @@ def center():
 @app.route('/right')
 def right():
     global position
-    spark = spark.SparkController(pwm_pin)
+    spark = spark_module.SparkController(pwm_pin)
     if position == Direction.LEFT:
         spark.set_speed(-move_speed)
         sleep(2*move_wait)
