@@ -14,7 +14,7 @@ in1 = 24
 in2 = 23
 pwm_pin = 13
 
-move_speed = 0.15
+move_speed = 0.25
 move_wait = 2
 
 position = Direction.NONE
@@ -49,7 +49,7 @@ def success():
 def reset():
     global position
     spark = spark_module.SparkController(pwm_pin)
-    spark.set_speed(-0.1)
+    spark.set_speed(-0.15)
     sleep(10)
     position = Direction.RIGHT
     spark.neutral()
