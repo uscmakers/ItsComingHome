@@ -15,7 +15,7 @@ in2 = 23
 pwm_pin = 13
 
 move_speed = 0.25
-move_wait = 0.5
+move_wait = 0.65
 
 position = Direction.NONE
 
@@ -50,8 +50,10 @@ def reset():
     global position
     spark = spark_module.SparkController(pwm_pin)
     spark.set_speed(0.2)
-    sleep(10)
-    position = Direction.RIGHT
+    sleep(5)
+    spark.set_speed(-0.2)
+    sleep(0.75)
+    position = Direction.LEFT
     spark.neutral()
     return redirect(url_for('index'))
 
@@ -61,7 +63,7 @@ def left():
     spark = spark_module.SparkController(pwm_pin)
     if position == Direction.RIGHT:
         spark.set_speed(move_speed)
-        sleep(2*move_wait)
+        sleep(1.8*move_wait)
         position = Direction.LEFT
     elif position == Direction.CENTER:
         spark.set_speed(move_speed)
@@ -75,11 +77,11 @@ def center():
     global position
     spark = spark_module.SparkController(pwm_pin)
     if position == Direction.LEFT:
-        spark.set_speed(move_speed)
+        spark.set_speed(-move_speed)
         sleep(move_wait)
         position = Direction.CENTER
     elif position == Direction.RIGHT:
-        spark.set_speed(-move_speed)
+        spark.set_speed(move_speed)
         sleep(move_wait)
         position = Direction.CENTER
     spark.neutral()
@@ -91,7 +93,7 @@ def right():
     spark = spark_module.SparkController(pwm_pin)
     if position == Direction.LEFT:
         spark.set_speed(-move_speed)
-        sleep(2*move_wait)
+        sleep(1.8*move_wait)
         position = Direction.RIGHT
     elif position == Direction.CENTER:
         spark.set_speed(-move_speed)
