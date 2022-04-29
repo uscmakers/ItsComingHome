@@ -1,6 +1,6 @@
 import RPi.GPIO as GPIO
 
-neutral_value = 7.5
+neutral_value = 7.15
 speed_coefficient = 2.5
 
 class SparkController:
@@ -16,5 +16,6 @@ class SparkController:
     # Speed should be a value -1 to 1
     def set_speed(self, speed):
         speed = min(max(speed, -1.0), 1.0)
+        speed = -speed
         sign = speed / abs(speed)
         self.pwm.start(neutral_value + 0.002 * sign + speed * speed_coefficient)
