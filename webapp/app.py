@@ -24,7 +24,6 @@ GPIO.setup(in1,GPIO.OUT)
 GPIO.setup(in2,GPIO.OUT)
 GPIO.output(in1,GPIO.LOW)
 GPIO.output(in2,GPIO.LOW)
-spark = spark.SparkController(13)
 
 app = Flask(__name__)
 
@@ -49,6 +48,7 @@ def success():
 @app.route('/reset')
 def reset():
     global position
+    spark = spark.SparkController(pwm_pin)
     spark.set_speed(-0.1)
     sleep(10)
     position = Direction.RIGHT
@@ -58,6 +58,7 @@ def reset():
 @app.route('/left')
 def left():
     global position
+    spark = spark.SparkController(pwm_pin)
     if position == Direction.RIGHT:
         spark.set_speed(move_speed)
         sleep(2*move_wait)
@@ -72,6 +73,7 @@ def left():
 @app.route('/center')
 def center():
     global position
+    spark = spark.SparkController(pwm_pin)
     if position == Direction.LEFT:
         spark.set_speed(-move_speed)
         sleep(move_wait)
@@ -86,6 +88,7 @@ def center():
 @app.route('/right')
 def right():
     global position
+    spark = spark.SparkController(pwm_pin)
     if position == Direction.LEFT:
         spark.set_speed(-move_speed)
         sleep(2*move_wait)
